@@ -13,7 +13,7 @@ This is an inventory management system built with Flask. It supports receiving i
 
 1. **Clone the repository:**
     ```sh
-    git clone https://github.com/yourusername/inventory-management-system.git
+    git clone https://github.com/rekk2/Lot_Tracking.git
     cd inventory-management-system
     ```
 
