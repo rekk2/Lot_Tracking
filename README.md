@@ -14,7 +14,7 @@ This is an inventory management system built with Flask. It supports receiving i
 1. **Clone the repository:**
     ```sh
     git clone https://github.com/rekk2/Lot_Tracking.git
-    cd inventory-management-system
+    cd Lot_tracking
     ```
 
 2. **Create and activate a virtual environment:**
