@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Pick Inventory</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+    <script>
+        async function pickInventory() {
+            const qrCodeId = document.getElementById('qr_code_id').value;
+            const quantity = document.getElementById('quantity').value;
+
+            const response = await fetch('/api/pick', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ qr_code_id: qrCodeId, quantity: quantity })
+            });
+            const result = await response.json();
+            alert(result.message);
+        }
+    </script>
+</head>
+<body>
+    <h1>Pick Inventory</h1>
+    <form onsubmit="event.preventDefault(); pickInventory();">
+        <label>QR Code ID:</label><br>
+        <input type="text" id="qr_code_id" required><br>
+        <label>Quantity:</label><br>
+        <input type="number" id="quantity" required><br><br>
+        <input type="submit" value="Pick">
+    </form>
+</body>
+</html>

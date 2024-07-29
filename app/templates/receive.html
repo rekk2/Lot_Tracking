@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Receive Inventory</title>
+    <script>
+        async function receiveItem() {
+            const partNumber = document.getElementById('part_number').value;
+            const lotNumber = document.getElementById('lot_number').value;
+            const receiptDate = document.getElementById('receipt_date').value;
+            const quantity = document.getElementById('quantity').value;
+            const inspectionFlag = document.getElementById('inspection_flag').checked;
+
+            const response = await fetch('/api/receive', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    part_number: partNumber,
+                    lot_number: lotNumber,
+                    receipt_date: receiptDate,
+                    quantity: quantity,
+                    inspection_flag: inspectionFlag,
+                }),
+            });
+
+            const result = await response.json();
+
+            if (response.status === 201) {
+                if (confirm('Do you want to print the label?')) {
+                    await fetch('/api/print', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({
+                            zpl_code: result.zpl_code,
+                        }),
+                    });
+                }
+                alert(result.message);
+                window.location.reload();
+            } else {
+                alert(result.error || 'Failed to receive item');
+            }
+        }
+
+        async function reprintLabel(qrCodeId) {
+            const response = await fetch('/api/reprint', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    qr_code_id: qrCodeId,
+                }),
+            });
+
+            const result = await response.json();
+            alert(result.message || result.error);
+        }
+    </script>
+</head>
+<body>
+    <h1>Receive Inventory</h1>
+    <form onsubmit="event.preventDefault(); receiveItem();">
+        <label for="part_number">Part Number:</label>
+        <input type="text" id="part_number" name="part_number"><br>
+        <label for="lot_number">Lot Number:</label>
+        <input type="text" id="lot_number" name="lot_number"><br>
+        <label for="receipt_date">Receipt Date:</label>
+        <input type="date" id="receipt_date" name="receipt_date"><br>
+        <label for="quantity">Quantity:</label>
+        <input type="number" id="quantity" name="quantity"><br>
+        <label for="inspection_flag">Inspection Required:</label>
+        <input type="checkbox" id="inspection_flag" name="inspection_flag"><br>
+        <button type="submit">Receive Item</button>
+    </form>
+
+    <h2>Last 5 Received Items</h2>
+    <ul>
+        {% for item in recent_items %}
+            <li>
+                {{ item.part_number }} - {{ item.lot_number }} ({{ item.receipt_date }})
+                <button onclick="reprintLabel('{{ item.qr_code_id }}')">Reprint Label</button>
+            </li>
+        {% endfor %}
+    </ul>
+</body>
+</html>

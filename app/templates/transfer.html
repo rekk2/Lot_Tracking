@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Transfer Inventory</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+    <script>
+        async function transferInventory() {
+            const id = document.getElementById('id').value;
+            const newLocation = document.getElementById('new_location').value;
+
+            const response = await fetch('/api/transfer', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ id: id, new_location: newLocation })
+            });
+            const result = await response.json();
+            alert(result.message);
+        }
+    </script>
+</head>
+<body>
+    <h1>Transfer Inventory</h1>
+    <form onsubmit="event.preventDefault(); transferInventory();">
+        <label>Part ID:</label><br>
+        <input type="number" id="id" required><br>
+        <label>New Location:</label><br>
+        <input type="text" id="new_location" required><br><br>
+        <input type="submit" value="Transfer">
+    </form>
+</body>
+</html>

@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Inspect Inventory</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+    <script>
+        async function inspectInventory() {
+            const id = document.getElementById('id').value;
+
+            const response = await fetch('/api/inspect', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ id: id })
+            });
+            const result = await response.json();
+            alert(result.message);
+        }
+
+        async function completeInspection() {
+            const id = document.getElementById('id').value;
+
+            const response = await fetch('/api/complete_inspection', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ id: id })
+            });
+            const result = await response.json();
+            alert(result.message);
+        }
+    </script>
+</head>
+<body>
+    <h1>Inspect Inventory</h1>
+    <form onsubmit="event.preventDefault(); inspectInventory();">
+        <label>Part ID:</label><br>
+        <input type="number" id="id" required><br>
+        <input type="submit" value="Move to INQC2STK">
+    </form>
+    <form onsubmit="I see that the previous message was cut off, so let's complete the HTML templates and add the necessary functionality for the web application to manage inventory receiving, inspection, and transferring parts.
+
+### 6. **Complete HTML Templates**
+
+**inspect.html (continued):**
+
+```html
+    <form onsubmit="event.preventDefault(); completeInspection();">
+        <label>Part ID:</label><br>
+        <input type="number" id="id" required><br>
+        <input type="submit" value="Move to Stock">
+    </form>
+</body>
+</html>

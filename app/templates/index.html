@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>LotTrack</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <h1>Welcome to LotTrack</h1>
+    <ul>
+        <li><a href="{{ url_for('receive') }}">Receive Inventory</a></li>
+        <li><a href="{{ url_for('inspect') }}">Inspect Inventory</a></li>
+        <li><a href="{{ url_for('transfer') }}">Transfer Inventory</a></li>
+        <li><a href="{{ url_for('pick') }}">Pick Inventory</a></li>
+    </ul>
+</body>
+</html>
